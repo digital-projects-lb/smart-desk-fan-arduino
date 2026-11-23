@@ -1,7 +1,3 @@
-
-
-https://github.com/user-attachments/assets/6c5db3d3-c5d5-40b1-9e34-94b47d372853
-
 # Smart Desk Fan (Arduino + CLI)
 
 A desktop cooling fan that turns itself on only when two things happen at once: the room gets too warm (over **30°C**) and someone is sitting at the desk (within **20 cm**).
@@ -78,5 +74,6 @@ Built with an **Arduino Uno**, basic sensors, and two micro servos—compiled an
 ---
 
 🎥 **[Watch Hardware Demo Video](docs/smart-fan-demo.mp4)**
+https://github.com/user-attachments/assets/6c5db3d3-c5d5-40b1-9e34-94b47d372853
 
 ---
