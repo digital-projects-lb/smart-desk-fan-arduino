@@ -9,9 +9,9 @@ Built with an **Arduino Uno**, basic sensors, and two micro servos—compiled an
 ## How It Works
 * **Checks if someone is at the desk:** An ultrasonic distance sensor mounted on a sweeping servo scans the desk area and measures proximity in centimeters.
 * **Shows room comfort at a glance:** An RGB LED changes color based on live temperature readings:
-  * **Blue (`< 10°C`):** Cold
-  * **Green (`10°C – 30°C`):** Comfortable
-  * **Red (`> 30°C`):** Too hot
+  * 🔵 **Blue (`< 10°C`):** Cold
+  * 🟢 **Green (`10°C – 30°C`):** Comfortable
+  * 🔴 **Red (`> 30°C`):** Too hot
 * **Saves power automatically:** Even if the room is over 30°C, the fan stays off until you sit down within 20 cm of the sensor.
 
 ---
