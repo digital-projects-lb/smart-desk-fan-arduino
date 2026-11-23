@@ -74,6 +74,7 @@ Built with an **Arduino Uno**, basic sensors, and two micro servos—compiled an
 ---
 
 🎥 **[Watch Hardware Demo Video](docs/smart-fan-demo.mp4)**
+
 https://github.com/user-attachments/assets/6c5db3d3-c5d5-40b1-9e34-94b47d372853
 
 ---
