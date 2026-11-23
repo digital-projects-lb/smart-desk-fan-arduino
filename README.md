@@ -64,3 +64,8 @@ Built with an **Arduino Uno**, basic sensors, and two micro servos—compiled an
 * Replace blocking `delay()` loops with `millis()` timers so the sensor sweeps and fan react at the exact same time.
 * Swap in a continuous rotation motor with 3D-printed fan blades for stronger airflow.
 * Add Bluetooth or an SD card module to log desk temperatures over time.
+
+---
+
+## Hardware Demo
+https://github.com
