@@ -1,53 +1,66 @@
-# Proximity & Thermal Smart Desk Fan (Arduino + Linux CLI)
+# Smart Desk Fan (Arduino + CLI)
 
-An automated embedded cooling system built on **Arduino Uno** and deployed via **Arduino CLI** on Linux/Windows. The system monitors ambient temperature and desk occupancy in real time—activating a dual-servo cooling fan only when temperatures exceed **30°C** and a user is detected within **20 cm**.
+A desktop cooling fan that turns itself on only when two things happen at once: the room gets too warm (over **30°C**) and someone is sitting at the desk (within **20 cm**). 
 
-🎥 **Hardware Demo Video:** [Watch on YouTube](https://youtu.be)
-
----
-
-## Key Features & System Logic
-* **Occupancy Detection (HC-SR04 Ultrasonic + Servo Sweeper):** Continuously scans the desk area and measures user proximity in centimeters.
-* **Thermal Status Feedback (RGB LED):**
-  * 🔵 **Blue (`< 10°C`):** Cold ambient state
-  * 🟢 **Green (`10°C – 30°C`):** Optimal comfort range
-  * 🔴 **Red (`> 30°C`):** High-temperature alert
-* **Automated Actuation (Servo Fan):** Engages cooling oscillation only when **Temperature > 30°C** AND **Proximity < 20 cm**.
-* **Headless CLI Deployment:** Compiled, flashed, and monitored via serial interface using `arduino-cli` without relying on a GUI IDE.
+Built with an **Arduino Uno**, basic sensors, and two micro servos—compiled and run straight from the command line using `arduino-cli`.
 
 ---
 
-## Hardware Architecture
+## How It Works
+* **Checks if someone is at the desk:** An ultrasonic distance sensor mounted on a sweeping servo scans the desk area and measures proximity in centimeters.
+* **Shows room comfort at a glance:** An RGB LED changes color based on live temperature readings:
+  * **Blue (`< 10°C`):** Cold
+  * **Green (`10°C – 30°C`):** Comfortable
+  * **Red (`> 30°C`):** Too hot
+* **Saves power automatically:** Even if the room is over 30°C, the fan stays off until you sit down within 20 cm of the sensor.
 
-| Component | Arduino Pin | Function |
+---
+
+## Parts & Wiring
+
+| Part | Arduino Pin | What It Does |
 | :--- | :--- | :--- |
-| **DHT11 Sensor** | `D4` | Digital temperature & humidity input |
-| **HC-SR04 Ultrasonic** | `D7` (TRIG), `D6` (ECHO) | Desk occupancy distance measurement |
-| **RGB LED (with 1kΩ resistors)** | `D10` (R), `D9` (G), `D8` (B) | Visual thermal state indicator |
-| **Fan Servo (`servo1`)** | `D2` | Automated cooling fan actuation |
-| **Scanner Servo (`servo2`)** | `D3` | 180° ultrasonic sensor rotation |
+| **DHT11 Sensor** | `D4` | Reads room temperature and humidity |
+| **HC-SR04 Ultrasonic** | `D7` (TRIG), `D6` (ECHO) | Checks how close you are to the desk |
+| **RGB LED (+ 1kΩ resistors)** | `D10` (R), `D9` (G), `D8` (B) | Lights up Blue, Green, or Red for temp |
+| **Fan Servo** | `D2` | Moves the fan when it's hot and you're nearby |
+| **Scanner Servo** | `D3` | Sweeps the ultrasonic sensor back and forth |
 
 ---
 
-## Quick Start (Arduino CLI)
+## Circuit & Schematic
 
-```bash
-# 1. Install board core & libraries
-arduino-cli core update-index
-arduino-cli core install arduino:avr
-arduino-cli lib install "DHT11" "Servo"
+### Breadboard Layout
+![Breadboard Circuit](docs/circuit-diagram.png)
 
-# 2. Compile & upload to Arduino Uno
-cd FAN
-arduino-cli compile -b arduino:avr:uno -u -p COM4
-
-# 3. View live telemetry (9600 baud)
-arduino-cli monitor -p COM4 -c baudrate=9600
-```
+### Wiring Schematic
+![Electronic Schematic](docs/schematic.png)
 
 ---
 
-## Future Roadmap
-* **Non-blocking `millis()` scheduler** to decouple ultrasonic sweep timing from fan actuation.
-* **Wireless telemetry & mobile control** via Bluetooth (HC-05) or ESP32 Wi-Fi migration.
-* **Data logging** to microSD for long-term desk thermal analytics.
+## Running It via Arduino CLI
+
+1. **Install the board support and libraries:**
+   ```bash
+   arduino-cli core update-index
+   arduino-cli core install arduino:avr
+   arduino-cli lib install "DHT11" "Servo"
+   ```
+
+2. **Compile and upload to the board** (replace `COM4` with your port):
+   ```bash
+   cd FAN
+   arduino-cli compile -b arduino:avr:uno -u -p COM4
+   ```
+
+3. **Watch the live temperature and distance readings:**
+   ```bash
+   arduino-cli monitor -p COM4 -c baudrate=9600
+   ```
+
+---
+
+## Ideas for Next Version
+* Replace blocking `delay()` loops with `millis()` timers so the sensor sweeps and fan react at the exact same time.
+* Swap in a continuous rotation motor with 3D-printed fan blades for stronger airflow.
+* Add Bluetooth or an SD card module to log desk temperatures over time.
